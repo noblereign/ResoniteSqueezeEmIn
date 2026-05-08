@@ -2,7 +2,6 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using FrooxEngine;
-using FrooxEngine.Headless;
 
 using HarmonyLib;
 using ResoniteModLoader;

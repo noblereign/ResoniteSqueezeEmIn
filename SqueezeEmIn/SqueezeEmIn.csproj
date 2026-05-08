@@ -15,7 +15,8 @@
 
   <PropertyGroup Condition="'$(Configuration)' == 'Headless'">
     <ResoniteTarget>headless</ResoniteTarget>
-    <AssemblyName>$(MSBuildProjectName)-Headless</AssemblyName>
+    <AssemblyName>$(MSBuildProjectName)</AssemblyName>
+    <TargetName>$(MSBuildProjectName)-Headless</TargetName>
   </PropertyGroup>
 
   <PropertyGroup>
