@@ -11,7 +11,7 @@ internal class HeadlessTweaksIntegration {
 	}
 
 	[MessageCommands.Command("squeeze", "Allow a user to bypass the user limit", "Moderation", PermissionLevel.Moderator, usage: "[user] [true/false]")]
-	internal static async void SqueezeCommand(UserMessages userMessages, Message msg, string[] args) {
+	public static async void SqueezeCommand(UserMessages userMessages, Message msg, string[] args) {
 		if (args.Length < 2) {
 			_ = userMessages.SendTextMessage("Usage: /squeeze [user] [true/false]");
 			return;
@@ -19,9 +19,9 @@ internal class HeadlessTweaksIntegration {
 
 		(bool, string) result = await SqueezyCommandHandler.RunSqueezeCommand(args.ToList());
 		if (result.Item1) {
-			SqueezeEmIn.Msg(result.Item2);
+			_ = userMessages.SendTextMessage($"<color=hero.green>✔</color>: {result.Item2}");
 		} else {
-			SqueezeEmIn.Warn(result.Item2);
+			_ = userMessages.SendTextMessage($"<color=hero.red>❌</color>: {result.Item2}");
 		}
 	}
 }

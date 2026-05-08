@@ -2,6 +2,8 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.CompilerServices;
 using FrooxEngine;
+using FrooxEngine.Headless;
+
 using HarmonyLib;
 using ResoniteModLoader;
 
@@ -36,6 +38,7 @@ public class SqueezeEmIn : ResoniteMod {
 		harmony.PatchAll();
 
 		#if RESONITE_HEADLESS
+		SqueezyHeadlessCommands.InitHeadlessCommands(harmony);
 		Engine.Current.OnReady += () => { // https://github.com/GrandtheUK/HeadlessAllowList/blob/main/HeadlessAllowList/HeadlessAllowList.cs#L52-L61
 			IEnumerable<ResoniteModBase> mods = ModLoader.Mods();
 			if (mods.Any(mod => mod.Name == "HeadlessTweaks")) {
