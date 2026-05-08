@@ -1,3 +1,8 @@
-﻿<Solution>
+<Solution>
+  <Configurations>
+    <BuildType Name="Debug" />
+    <BuildType Name="Headless" />
+    <BuildType Name="Release" />
+  </Configurations>
   <Project Path="SqueezeEmIn\SqueezeEmIn.csproj" />
 </Solution>

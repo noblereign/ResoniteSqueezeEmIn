@@ -36,8 +36,13 @@ If you're using the mod on a graphical client, then the `User IDs` string is als
 ```
 User IDs are trimmed during processing, so you can use spaces after your commas if you wish.
 
+## Headless Note
+
+> [!NOTE] If you're using this on a headless install, please use [SqueezeEmIn-Headless.dll](https://github.com/noblereign/ResoniteSqueezeEmIn/releases/latest/download/SqueezeEmIn-Headless.dll), as it comes with a console command and [HeadlessTweaks](https://github.com/New-Project-Final-Final-WIP/HeadlessTweaks) integration!
+
+<sub>The headless version has an incompatibility with [ContextMenuHookLib](https://git.unix.dog/yosh/ResoniteContextMenuHookLib/releases), hence the seperate dll. If you don't use ContextMenuHookLib, then feel free to use whichever dll you want, I guess</sub>
 
 ## Installation
 1. Install [ResoniteModLoader](https://github.com/resonite-modding-group/ResoniteModLoader).
-1. Place [SqueezeEmIn.dll](https://github.com/noblereign/ResoniteSqueezeEmIn/releases/latest/download/SqueezeEmIn.dll) into your `rml_mods` folder. This folder should be at `C:\Program Files (x86)\Steam\steamapps\common\Resonite\rml_mods` for a default install. You can create it if it's missing, or if you launch the game once with ResoniteModLoader installed it will create this folder for you.
+1. Place [SqueezeEmIn.dll](https://github.com/noblereign/ResoniteSqueezeEmIn/releases/latest/download/SqueezeEmIn.dll) (or [SqueezeEmIn-Headless.dll](https://github.com/noblereign/ResoniteSqueezeEmIn/releases/latest/download/SqueezeEmIn-Headless.dll)) into your `rml_mods` folder. This folder should be at `C:\Program Files (x86)\Steam\steamapps\common\Resonite\rml_mods` for a default install. You can create it if it's missing, or if you launch the game once with ResoniteModLoader installed it will create this folder for you.
 1. Start the game. If you want to verify that the mod is working you can check your Resonite logs.

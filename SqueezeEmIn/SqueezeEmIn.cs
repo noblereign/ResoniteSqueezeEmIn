@@ -7,6 +7,7 @@ using ResoniteModLoader;
 
 namespace SqueezeEmIn;
 //More info on creating mods can be found https://github.com/resonite-modding-group/ResoniteModLoader/wiki/Creating-Mods
+#pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public class SqueezeEmIn : ResoniteMod {
 	internal const string VERSION_CONSTANT = "1.0.0"; //Changing the version here updates it in all locations needed
 	public override string Name => "SqueezeEmIn";
@@ -33,6 +34,32 @@ public class SqueezeEmIn : ResoniteMod {
 
 		Harmony harmony = new("dog.glacier.SqueezeEmIn");
 		harmony.PatchAll();
+
+		#if RESONITE_HEADLESS
+		Engine.Current.OnReady += () => { // https://github.com/GrandtheUK/HeadlessAllowList/blob/main/HeadlessAllowList/HeadlessAllowList.cs#L52-L61
+			IEnumerable<ResoniteModBase> mods = ModLoader.Mods();
+			if (mods.Any(mod => mod.Name == "HeadlessTweaks")) {
+				HeadlessTweaksIntegration.InitHeadlessTweaks();
+				Msg("Added command to HeadlessTweaks");
+			} else {
+				Warn("HeadlessTweaks not found. Chat commands unavailable");
+			}
+		};
+		#endif
+	}
+
+	public static bool SqueezeUser(string userId, bool allowSqueeze) {
+		List<string> userIdArrayList = SqueezeEmIn.config.GetValue(SqueezeEmIn.UserIDsArray) ?? [];
+		if (allowSqueeze) {
+			if (userIdArrayList.Contains(userId)) return false;
+			userIdArrayList.Add(userId);
+		} else {
+			if (!userIdArrayList.Contains(userId)) return false;
+			userIdArrayList.RemoveAll(item => item == userId);
+		}
+		config?.Set(UserIDsArray, userIdArrayList);
+		config?.Save();
+		return true;
 	}
 
 	[HarmonyPatch]
