@@ -38,7 +38,8 @@ User IDs are trimmed during processing, so you can use spaces after your commas 
 
 ## Headless Note
 
-> [!NOTE] If you're using this on a headless install, please use [SqueezeEmIn-Headless.dll](https://github.com/noblereign/ResoniteSqueezeEmIn/releases/latest/download/SqueezeEmIn-Headless.dll), as it comes with a console command and [HeadlessTweaks](https://github.com/New-Project-Final-Final-WIP/HeadlessTweaks) integration!
+> [!NOTE]
+> If you're using this on a headless install, please use [SqueezeEmIn-Headless.dll](https://github.com/noblereign/ResoniteSqueezeEmIn/releases/latest/download/SqueezeEmIn-Headless.dll), as it comes with a console command and [HeadlessTweaks](https://github.com/New-Project-Final-Final-WIP/HeadlessTweaks) integration!
 
 <sub>The headless version has an incompatibility with [ContextMenuHookLib](https://git.unix.dog/yosh/ResoniteContextMenuHookLib/releases), hence the seperate dll. If you don't use ContextMenuHookLib, then feel free to use whichever dll you want, I guess</sub>
 
