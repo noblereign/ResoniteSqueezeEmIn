@@ -1,10 +1,10 @@
-﻿<Project Sdk="Remora.Resonite.Sdk/2.1.0">
+﻿<Project Sdk="Remora.Resonite.Sdk/2.3.4">
   <PropertyGroup>
     <ResoniteTarget>client</ResoniteTarget>
     <ResoniteProjectType>mod</ResoniteProjectType>
     <ResoniteTargetModLoader>ResoniteModLoaderStandalone</ResoniteTargetModLoader>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
-    <TargetFramework>net10.0</TargetFramework>
+    <TargetFramework>net11.0</TargetFramework>
     <LangVersion>14.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -52,4 +52,9 @@
     <Message Text="Attempting to copy $(TargetFileName) to $(DeployFolder)" Importance="high" />
     <Copy SourceFiles="$(TargetDir)$(TargetFileName)" DestinationFolder="$(DeployFolder)" ContinueOnError="true" />
   </Target>
+
+  <ItemGroup>
+    <PackageReference Update="Lib.Harmony" Version="3.0.0-rc.8" />
+    <PackageReference Update="ResoniteModLoader" Version="5.0.4" />
+  </ItemGroup>
 </Project>

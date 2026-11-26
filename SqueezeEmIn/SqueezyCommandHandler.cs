@@ -4,7 +4,7 @@ using SkyFrost.Base;
 
 namespace SqueezeEmIn {
 	class SqueezyCommandHandler {
-		public async static Task<string> TryGetUserId(string value, bool allowAnyUserId = true, bool onlyLookupContacts = false) { // https://github.com/New-Project-Final-Final-WIP/HeadlessTweaks/blob/master/HeadlessTweaks/MsgCommands/Utilities.cs#L26
+		public async static Task<string?> TryGetUserId(string value, bool allowAnyUserId = true, bool onlyLookupContacts = false) { // https://github.com/New-Project-Final-Final-WIP/HeadlessTweaks/blob/master/HeadlessTweaks/MsgCommands/Utilities.cs#L26
 			if (allowAnyUserId && IdUtil.GetOwnerType(value.ToUpper()) == OwnerType.User) return value;
 
 			var contact = Engine.Current.Cloud.Contacts.FindContact((Contact f) => f.ContactUsername.Equals(value, StringComparison.InvariantCultureIgnoreCase));

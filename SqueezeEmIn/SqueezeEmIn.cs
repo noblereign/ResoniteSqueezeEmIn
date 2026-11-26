@@ -10,13 +10,13 @@ namespace SqueezeEmIn;
 //More info on creating mods can be found https://github.com/resonite-modding-group/ResoniteModLoader/wiki/Creating-Mods
 #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member
 public class SqueezeEmIn : ResoniteMod {
-	internal const string VERSION_CONSTANT = "1.0.0"; //Changing the version here updates it in all locations needed
+	internal const string VERSION_CONSTANT = "1.1.0"; //Changing the version here updates it in all locations needed
 	public override string Name => "SqueezeEmIn";
 	public override string Author => "Noble";
 	public override string Version => VERSION_CONSTANT;
 	public override string Link => "https://github.com/noblereign/ResoniteSqueezeEmIn";
 
-	public static ModConfiguration config;
+	public static ModConfiguration? config;
 
 	[AutoRegisterConfigKey]
 	private static ModConfigurationKey<bool> Enabled = new("Enabled", "Enables the mod.", () => true);
@@ -30,7 +30,7 @@ public class SqueezeEmIn : ResoniteMod {
 	);
 
 	public override void OnEngineInit() {
-		config = GetConfiguration();
+		config = GetConfiguration()!;
 		config.Save(true);
 
 		Harmony harmony = new("dog.glacier.SqueezeEmIn");
@@ -51,7 +51,7 @@ public class SqueezeEmIn : ResoniteMod {
 	}
 
 	public static bool SqueezeUser(string userId, bool allowSqueeze) {
-		List<string> userIdArrayList = SqueezeEmIn.config.GetValue(SqueezeEmIn.UserIDsArray) ?? [];
+		List<string> userIdArrayList = config!.GetValue(UserIDsArray) ?? [];
 		if (allowSqueeze) {
 			if (userIdArrayList.Contains(userId)) return false;
 			userIdArrayList.Add(userId);
@@ -64,37 +64,21 @@ public class SqueezeEmIn : ResoniteMod {
 		return true;
 	}
 
-	[HarmonyPatch(typeof(World), nameof(World.VerifyJoinRequest), MethodType.Async)]
+	[HarmonyPatch(typeof(World), nameof(World.VerifyJoinRequest))]
 	public class World_VerifyJoinRequest_Patch {
-		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, MethodBase originalMethod) {
-			var lookFor = AccessTools.PropertyGetter(typeof(World), nameof(World.HasFreeUserSpots));
-			
+		[HarmonyTranspiler]
+		static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			var customMethod = AccessTools.Method(typeof(World_VerifyJoinRequest_Patch), nameof(CustomHasFreeUserSpotsCheck));
-
-			var stateMachineType = originalMethod.DeclaringType;
-			var connectionField = AccessTools.Field(stateMachineType, "connection");
 
 			bool patched = false;
 
 			foreach (var instruction in instructions) {
-				// Does the instruction call the function we want to replace?
-				bool isTargetMethod = instruction.Calls(lookFor);
+				bool isTargetMethod = (instruction.opcode == OpCodes.Call || instruction.opcode == OpCodes.Callvirt) &&
+									  (instruction.operand is MethodInfo method && method.Name == "get_HasFreeUserSpots");
 
 				if (!patched && isTargetMethod) {
-					// 1. The original code JUST pushed 'World' onto the stack.
-					// Stack: [ ..., World ]
-
-					// 2. Push the state machine instance ('this') onto the stack.
-					yield return new(OpCodes.Ldarg_0);
-					// Stack: [ ..., World, StateMachineInstance ]
-
-					// 3. Load the 'connection' field from the state machine instance.
-					yield return new(OpCodes.Ldfld, connectionField);
-					// Stack: [ ..., World, SessionConnection ]
-
-					// 4. Call our custom method! It consumes BOTH arguments and returns a bool, 
-					// keeping the IL stack perfectly balanced for the upcoming branch instruction.
-					yield return new(OpCodes.Call, customMethod);
+					yield return new CodeInstruction(OpCodes.Ldarg_1);
+					yield return new CodeInstruction(OpCodes.Call, customMethod);
 
 					patched = true;
 					Msg("Ready to squeeze 'em in!");
@@ -110,7 +94,7 @@ public class SqueezeEmIn : ResoniteMod {
 		}
 
 		public static bool CustomHasFreeUserSpotsCheck(World world, SessionConnection connection) {
-			if (config.GetValue(Enabled)) {
+			if (config!.GetValue(Enabled)) {
 				string userIdStringList = config.GetValue(UserIDsCommaSeperated) ?? "";
 				List<string> userIdArrayList = config.GetValue(UserIDsArray) ?? [];
 
