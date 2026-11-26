@@ -19,10 +19,10 @@ public class SqueezeEmIn : ResoniteMod {
 	public static ModConfiguration? config;
 
 	[AutoRegisterConfigKey]
-	private static ModConfigurationKey<bool> Enabled = new ModConfigurationKey<bool>("Enabled", "Enables the mod.", () => true);
+	private static ModConfigurationKey<bool> Enabled = new("Enabled", "Enables the mod.", () => true);
 
 	[AutoRegisterConfigKey]
-	private static ModConfigurationKey<string> UserIDsCommaSeperated = new ModConfigurationKey<string>("User IDs", "A comma-seperated list of User IDs to always let into your sessions, regardless of user cap.", () => "");
+	private static ModConfigurationKey<string> UserIDsCommaSeperated = new("User IDs", "A comma-seperated list of User IDs to always let into your sessions, regardless of user cap.", () => "");
 
 	[AutoRegisterConfigKey]
 	private static ModConfigurationKey<List<string>> UserIDsArray = new(
@@ -83,6 +83,7 @@ public class SqueezeEmIn : ResoniteMod {
 					patched = true;
 					Msg("Ready to squeeze 'em in!");
 				} else {
+					// this isn't what we're looking for... keep walking bro
 					yield return instruction;
 				}
 			}
